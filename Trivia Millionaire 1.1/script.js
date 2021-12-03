@@ -15,8 +15,8 @@ const wrongMsg = document.getElementById('wrong-message')
 const moneylistItemAmount = document.querySelectorAll('li')
 
 
-
 let shuffledQuestions, currentQuestionIndex
+
 
 //Money container array
 const moneyArray = Array.prototype.slice.call(moneylistItemAmount);
@@ -70,7 +70,7 @@ function delayQuestion() {
 }
 
 // after play button is clicked, display money container, hide title and start button
-// begin animation and invoke delay function
+// begin animation and invoke delay function, and invoke display function
 startButton.addEventListener("click", function() {
   moneyContainer.style.display = "block";
   title.style.display = "none";
@@ -93,7 +93,6 @@ function setNextQuestion(){
   showQuestion(shuffledQuestions[currentQuestionIndex])
 }
 
-
 //change inner text of questions and select answers
 function showQuestion(question) {
   questionElement.innerText = question.question
@@ -101,10 +100,9 @@ function showQuestion(question) {
     const button = document.createElement('button')
     button.innerText = answer.text
     button.classList.add('btn')
-    if (answer.correct) {
-      button.dataset.correct = answer.correct
+    if (correct) {
       z = true;
-    } else if(!answer.correct){
+    } else if(wrong){
       z = false;
     }
     button.addEventListener("click", selectAnswer)
@@ -121,14 +119,24 @@ function resetState() {
   }
 }
 
-
 // select the answer
 function selectAnswer(e) {
+  debugger;
   const selectedButton = e.target
-  const correct = selectedButton.dataset.correct
+  questions.forEach(answers => {
+      if (correct) {
+          console.log(correct);
+      } else {
+        console.log('false')
+      }
+  });
   setStatusClass(document.body, correct)
   Array.from(answerButtonsElement.children).forEach(button => {
-    setStatusClass(button, button.dataset.correct)
+    setStatusClass(button, correct)
+  })
+  setStatusClass(document.body, wrong)
+  Array.from(answerButtonsElement.children).forEach(button => {
+    setStatusClass(button, !correct)
   })
 }
 
@@ -425,3 +433,12 @@ const questions = [
     ]
   }
 ]
+
+
+const correct = questions.filter(answers => {
+  answers.correct === true
+})
+
+const wrong = questions.filter(answers => {
+  answers.correct === false
+})
