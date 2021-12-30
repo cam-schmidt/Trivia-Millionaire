@@ -137,12 +137,10 @@ function selectAnswer(e) {
     const selectedButton = e.target
     if (shuffledQuestions[currentQuestionIndex].answers.find(answers => { return answers.text === selectedButton.textContent }).correct) {
         console.log('correct');
-        //setStatusClass(document.body, correct)
         setStatusClass(true)
     } else {
         console.log('incorrect');
         selectedButton.classList.add('selected')
-        //Array.from(answerButtonsElement.children).forEach(button => {
         setStatusClass(false)
 
     }
@@ -162,7 +160,6 @@ function setStatusClass(correct) {
     })
     //clearStatusClass(element)
     if (correct) {
-        // element.classList.add('correct')
         moneyIdx--;
         if (moneyIdx >= 0) {
 			delay = 2050
